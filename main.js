@@ -755,7 +755,7 @@ var InMemoryDataService = /** @class */ (function () {
         var heroes = [
             { id: 11, name: 'Dhananjay' },
             { id: 12, name: 'Rahul' },
-            { id: 13, name: 'Ruplai' },
+            { id: 13, name: 'Rupali' },
             { id: 14, name: 'Tejas' },
             { id: 15, name: 'Pranoti' },
             { id: 16, name: 'Amaya' },
