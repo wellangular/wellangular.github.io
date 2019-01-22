@@ -753,16 +753,16 @@ var InMemoryDataService = /** @class */ (function () {
     }
     InMemoryDataService.prototype.createDb = function () {
         var heroes = [
-            { id: 11, name: 'Mr. Nice' },
-            { id: 12, name: 'Narco' },
-            { id: 13, name: 'Bombasto' },
-            { id: 14, name: 'Celeritas' },
-            { id: 15, name: 'Magneta' },
-            { id: 16, name: 'RubberMan' },
-            { id: 17, name: 'Dynama' },
-            { id: 18, name: 'Dr IQ' },
-            { id: 19, name: 'Magma' },
-            { id: 20, name: 'Tornado' }
+            { id: 11, name: 'Dhananjay' },
+            { id: 12, name: 'Rahul' },
+            { id: 13, name: 'Ruplai' },
+            { id: 14, name: 'Tejas' },
+            { id: 15, name: 'Pranoti' },
+            { id: 16, name: 'Amaya' },
+            { id: 17, name: 'Nitin' },
+            { id: 18, name: 'Chaitnya' },
+            { id: 19, name: 'Hidayat' },
+            { id: 20, name: 'Shubham' }
         ];
         return { heroes: heroes };
     };
