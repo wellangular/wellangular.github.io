@@ -5,21 +5,37 @@
   !*** ./src/$$_lazy_route_resource lazy namespace object ***!
   \**********************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function webpackEmptyAsyncContext(req) {
-	// Here Promise.resolve().then() is used instead of new Promise() to prevent
-	// uncaught exception popping up in devtools
-	return Promise.resolve().then(function() {
-		var e = new Error('Cannot find module "' + req + '".');
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
+var map = {
+	"./component/component.module": [
+		"./src/app/component/component.module.ts",
+		"component-component-module"
+	],
+	"./starter/starter.module": [
+		"./src/app/starter/starter.module.ts",
+		"starter-starter-module"
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];
+	if(!ids) {
+		return Promise.resolve().then(function() {
+			var e = new Error("Cannot find module '" + req + "'");
+			e.code = 'MODULE_NOT_FOUND';
+			throw e;
+		});
+	}
+	return __webpack_require__.e(ids[1]).then(function() {
+		var id = ids[0];
+		return __webpack_require__(id);
 	});
 }
-webpackEmptyAsyncContext.keys = function() { return []; };
-webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
-module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 
@@ -27,46 +43,35 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*!***************************************!*\
   !*** ./src/app/app-routing.module.ts ***!
   \***************************************/
-/*! exports provided: AppRoutingModule */
+/*! exports provided: Approutes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _dashboard_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dashboard.component */ "./src/app/dashboard.component.ts");
-/* harmony import */ var _heroes_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./heroes.component */ "./src/app/heroes.component.ts");
-/* harmony import */ var _hero_detail_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hero-detail.component */ "./src/app/hero-detail.component.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Approutes", function() { return Approutes; });
+/* harmony import */ var _layouts_full_full_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./layouts/full/full.component */ "./src/app/layouts/full/full.component.ts");
 
-
-
-
-
-var routes = [
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-    { path: 'dashboard', component: _dashboard_component__WEBPACK_IMPORTED_MODULE_2__["DashboardComponent"] },
-    { path: 'detail/:id', component: _hero_detail_component__WEBPACK_IMPORTED_MODULE_4__["HeroDetailComponent"] },
-    { path: 'heroes', component: _heroes_component__WEBPACK_IMPORTED_MODULE_3__["HeroesComponent"] }
-];
-var AppRoutingModule = /** @class */ (function () {
-    function AppRoutingModule() {
+var Approutes = [
+    {
+        path: '',
+        component: _layouts_full_full_component__WEBPACK_IMPORTED_MODULE_0__["FullComponent"],
+        children: [
+            { path: '', redirectTo: '/starter', pathMatch: 'full' },
+            {
+                path: 'starter',
+                loadChildren: './starter/starter.module#StarterModule'
+            },
+            {
+                path: 'component',
+                loadChildren: './component/component.module#ComponentsModule'
+            }
+        ]
+    },
+    {
+        path: '**',
+        redirectTo: '/starter'
     }
-    AppRoutingModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forRoot(routes)],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
-        })
-    ], AppRoutingModule);
-    return AppRoutingModule;
-}());
-
+];
 
 
 /***/ }),
@@ -78,7 +83,18 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "h1 {\n  font-size: 1.2em;\n  color: #999;\n  color: #555;\n  margin-bottom: 0;\n}\nh2 {\n  font-size: 2em;\n  margin-top: 0;\n  padding-top: 0;\n}\nnav a {\n  padding: 5px 10px;\n  text-decoration: none;\n  margin-top: 10px;\n  display: inline-block;\n  background-color: #eee;\n  border-radius: 4px;\n}\nnav a:visited, a:link {\n  color: #607D8B;\n}\nnav a:hover {\n  color: #039be5;\n  background-color: #CFD8DC;\n}\nnav a.router-link-active {\n  color: #039be5;\n}\n.header-bar {\n  background-color: rgb(0,120,215);\n  height: 4px;\n  margin-top: 10px;\n  margin-bottom: 10px;\n}\n"
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/app.component.html":
+/*!************************************!*\
+  !*** ./src/app/app.component.html ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<router-outlet>\r\n    <app-spinner></app-spinner>\r\n</router-outlet>"
 
 /***/ }),
 
@@ -102,12 +118,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.title = 'Tour of Heroes';
     }
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'my-root',
-            template: "\n    <h1>{{title}}</h1>\n    <div class=\"header-bar\"></div>\n    <nav>\n      <a routerLink=\"/dashboard\" routerLinkActive=\"active\">Dashboard</a>\n      <a routerLink=\"/heroes\" routerLinkActive=\"active\">Heroes</a>\n    </nav>\n    <router-outlet></router-outlet>\n  ",
+            selector: 'app-root',
+            template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         })
     ], AppComponent);
@@ -129,18 +144,21 @@ var AppComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppModule", function() { return AppModule; });
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var angular_in_memory_web_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular-in-memory-web-api */ "./node_modules/angular-in-memory-web-api/index.js");
-/* harmony import */ var _in_memory_data_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./in-memory-data.service */ "./src/app/in-memory-data.service.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _hero_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./hero.service */ "./src/app/hero.service.ts");
-/* harmony import */ var _dashboard_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dashboard.component */ "./src/app/dashboard.component.ts");
-/* harmony import */ var _heroes_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./heroes.component */ "./src/app/heroes.component.ts");
-/* harmony import */ var _hero_detail_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./hero-detail.component */ "./src/app/hero-detail.component.ts");
-/* harmony import */ var _hero_search_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./hero-search.component */ "./src/app/hero-search.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _layouts_full_full_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./layouts/full/full.component */ "./src/app/layouts/full/full.component.ts");
+/* harmony import */ var _shared_header_navigation_navigation_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./shared/header-navigation/navigation.component */ "./src/app/shared/header-navigation/navigation.component.ts");
+/* harmony import */ var _shared_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./shared/sidebar/sidebar.component */ "./src/app/shared/sidebar/sidebar.component.ts");
+/* harmony import */ var _shared_breadcrumb_breadcrumb_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./shared/breadcrumb/breadcrumb.component */ "./src/app/shared/breadcrumb/breadcrumb.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ngx-perfect-scrollbar */ "./node_modules/ngx-perfect-scrollbar/dist/ngx-perfect-scrollbar.es5.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _shared_spinner_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./shared/spinner.component */ "./src/app/shared/spinner.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -153,7 +171,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 
 
@@ -161,31 +178,45 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
+
+var DEFAULT_PERFECT_SCROLLBAR_CONFIG = {
+    suppressScrollX: true,
+    wheelSpeed: 2,
+    wheelPropagation: true
+};
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-            imports: [
-                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                angular_in_memory_web_api__WEBPACK_IMPORTED_MODULE_4__["HttpClientInMemoryWebApiModule"].forRoot(_in_memory_data_service__WEBPACK_IMPORTED_MODULE_5__["InMemoryDataService"], {
-                    dataEncapsulation: false,
-                    delay: 300,
-                    passThruUnknownUrl: true
-                })
-            ],
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                _dashboard_component__WEBPACK_IMPORTED_MODULE_9__["DashboardComponent"],
-                _hero_search_component__WEBPACK_IMPORTED_MODULE_12__["HeroSearchComponent"],
-                _heroes_component__WEBPACK_IMPORTED_MODULE_10__["HeroesComponent"],
-                _hero_detail_component__WEBPACK_IMPORTED_MODULE_11__["HeroDetailComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_14__["AppComponent"],
+                _shared_spinner_component__WEBPACK_IMPORTED_MODULE_15__["SpinnerComponent"],
+                _layouts_full_full_component__WEBPACK_IMPORTED_MODULE_7__["FullComponent"],
+                _shared_header_navigation_navigation_component__WEBPACK_IMPORTED_MODULE_8__["NavigationComponent"],
+                _shared_breadcrumb_breadcrumb_component__WEBPACK_IMPORTED_MODULE_10__["BreadcrumbComponent"],
+                _shared_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_9__["SidebarComponent"]
             ],
-            providers: [_hero_service__WEBPACK_IMPORTED_MODULE_8__["HeroService"]],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
+                _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_1__["BrowserAnimationsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
+                _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_11__["NgbModule"].forRoot(),
+                _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterModule"].forRoot(_app_routing_module__WEBPACK_IMPORTED_MODULE_13__["Approutes"]),
+                ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_12__["PerfectScrollbarModule"]
+            ],
+            providers: [
+                {
+                    provide: ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_12__["PERFECT_SCROLLBAR_CONFIG"],
+                    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+                }
+            ],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_14__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -195,41 +226,40 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/dashboard.component.css":
-/*!*****************************************!*\
-  !*** ./src/app/dashboard.component.css ***!
-  \*****************************************/
+/***/ "./src/app/layouts/full/full.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/layouts/full/full.component.html ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "[class*='col-'] {\n  float: left;\n}\n*, *:after, *:before {\n\tbox-sizing: border-box;\n}\nh3 {\n  text-align: center; margin-bottom: 0;\n}\n[class*='col-'] {\n  padding-right: 20px;\n  padding-bottom: 20px;\n}\n[class*='col-']:last-of-type {\n  padding-right: 0;\n}\n.grid {\n  margin: 0;\n  display: inline-block;\n}\n.col-1-4 {\n  width: 25%;\n}\n.module {\n\tpadding: 20px;\n\ttext-align: center;\n\tcolor: #eee;\n\tmax-height: 120px;\n\tmin-width: 120px;\n\tbackground-color: #607D8B;\n  background-color: rgb(0,120,215);\n\tborder-radius: 2px;\n}\nh4 {\n  position: relative;\n}\n.module:hover {\n  background-color: #EEE;\n  background-color: #CCC;\n  cursor: pointer;\n  color: #607d8b;\n}\n.grid-pad {\n  padding: 10px 0;\n}\n.grid-pad > [class*='col-']:last-of-type {\n  padding-right: 20px;\n}\n@media (max-width: 600px) {\n\t.module {\n\t  font-size: 10px;\n\t  max-height: 75px;\n  }\n  .col-1-4 {\n    width: 50%;\n  }\n}\n@media (max-width: 1024px) {\n\t.grid {\n\t  margin: 0;\n\t}\n\t.module {\n\t  min-width: 60px;\n\t}\n}\n"
+module.exports = "<!-- ============================================================== -->\r\n<!-- Main wrapper - style you can find in pages.scss -->\r\n<!-- ============================================================== -->\r\n<div id=\"main-wrapper\" [ngClass]=\"\r\n    {\r\n        'defaultdark': color == 'defaultdark',\r\n        'mini-sidebar': showMinisidebar\r\n    }\r\n\">\r\n    <!-- ============================================================== -->\r\n    <!-- Topbar header - style you can find in pages.scss -->\r\n    <!-- ============================================================== -->\r\n    <header class=\"topbar\">\r\n        <nav class=\"navbar top-navbar navbar-expand-md navbar-light\">\r\n            <!-- ============================================================== -->\r\n            <!-- Logo -->\r\n            <!-- ============================================================== -->\r\n            <div class=\"navbar-header\">\r\n                <a class=\"navbar-brand\" href=\"index.html\">\r\n                    <!-- Logo icon --><b>\r\n                        <!--You can put here icon as well // <i class=\"wi wi-sunset\"></i> //-->\r\n                        <!-- Dark Logo icon -->\r\n                        <img src=\"assets/images/logo-icon.png\" alt=\"homepage\" class=\"dark-logo\" />\r\n                        <!-- Light Logo icon -->\r\n                        <img src=\"assets/images/logo-light-icon.png\" alt=\"homepage\" class=\"light-logo\" />\r\n                    </b>\r\n                    <!--End Logo icon -->\r\n                    <!-- Logo text --><span>\r\n                     <!-- dark Logo text -->\r\n                     <img src=\"assets/images/logo-text.png\" alt=\"homepage\" class=\"dark-logo\" />\r\n                     <!-- Light Logo text -->    \r\n                     <img src=\"assets/images/logo-light-text.png\" class=\"light-logo\" alt=\"homepage\" /></span> </a>\r\n            </div>\r\n            <!-- ============================================================== -->\r\n            <!-- End Logo -->\r\n            <!-- ============================================================== -->\r\n            <div class=\"navbar-collapse\">\r\n                <app-navigation class=\"w-100\" (toggleSidebar)=\"toggleSidebar()\"></app-navigation>\r\n            </div>\r\n        </nav>\r\n    </header>\r\n    <!-- ============================================================== -->\r\n    <!-- Left Sidebar - style you can find in sidebar.scss  -->\r\n    <!-- ============================================================== -->\r\n    <aside class=\"left-sidebar\">\r\n        <!-- Sidebar scroll-->\r\n        <div class=\"scroll-sidebar\" [perfectScrollbar]=\"config\">\r\n            <app-sidebar></app-sidebar>\r\n        </div>\r\n        <!-- End Sidebar scroll-->\r\n    </aside>\r\n    <!-- ============================================================== -->\r\n    <!-- End Left Sidebar - style you can find in sidebar.scss  -->\r\n    <!-- ============================================================== -->\r\n    <!-- ============================================================== -->\r\n    <!-- Page wrapper  -->\r\n    <!-- ============================================================== -->\r\n    <div class=\"page-wrapper\">\r\n        <!-- ============================================================== -->\r\n        <!-- Container fluid  -->\r\n        <!-- ============================================================== -->\r\n        <div class=\"container-fluid\">\r\n            <app-breadcrumb></app-breadcrumb>\r\n            <!-- ============================================================== -->\r\n            <!-- Start Page Content -->\r\n            <!-- ============================================================== -->\r\n            <router-outlet></router-outlet>\r\n            <!-- ============================================================== -->\r\n            <!-- End Start Page Content -->\r\n            <!-- ============================================================== -->\r\n            \r\n        </div>\r\n        <!-- ============================================================== -->\r\n        <!-- End Container fluid  -->\r\n        <!-- ============================================================== -->\r\n    </div>\r\n    <!-- ============================================================== -->\r\n    <!-- End Page wrapper  -->\r\n    <!-- ============================================================== -->\r\n    <!-- ============================================================== -->\r\n    <!-- footer -->\r\n    <!-- ============================================================== -->\r\n    <footer class=\"footer\">\r\n        © 2018 Admin Pro Angular by wrappixel.com\r\n    </footer>\r\n    <!-- ============================================================== -->\r\n    <!-- End footer -->\r\n    <!-- ============================================================== -->\r\n\r\n</div>\r\n"
 
 /***/ }),
 
-/***/ "./src/app/dashboard.component.html":
-/*!******************************************!*\
-  !*** ./src/app/dashboard.component.html ***!
-  \******************************************/
+/***/ "./src/app/layouts/full/full.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/layouts/full/full.component.scss ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3>Top Heroes</h3>\n<div class=\"grid grid-pad\">\n  <div *ngFor=\"let hero of heroes\" (click)=\"gotoDetail(hero)\" class=\"col-1-4\">\n    <div class=\"module hero\">\n      <h4>{{hero.name}}</h4>\n    </div>\n  </div>\n</div>\n<my-hero-search></my-hero-search>\n"
+module.exports = ".main-container {\n  margin-top: 60px;\n  margin-left: 235px;\n  padding: 15px;\n  -ms-overflow-x: hidden;\n  overflow-x: hidden;\n  overflow-y: scroll;\n  position: relative;\n  overflow: hidden; }\n\n@media screen and (max-width: 992px) {\n  .main-container {\n    margin-left: 0px !important; } }\n"
 
 /***/ }),
 
-/***/ "./src/app/dashboard.component.ts":
-/*!****************************************!*\
-  !*** ./src/app/dashboard.component.ts ***!
-  \****************************************/
-/*! exports provided: DashboardComponent */
+/***/ "./src/app/layouts/full/full.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/layouts/full/full.component.ts ***!
+  \************************************************/
+/*! exports provided: FullComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DashboardComponent", function() { return DashboardComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FullComponent", function() { return FullComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _hero_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hero.service */ "./src/app/hero.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -241,74 +271,84 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-
-var DashboardComponent = /** @class */ (function () {
-    function DashboardComponent(router, heroService) {
+var FullComponent = /** @class */ (function () {
+    function FullComponent(router) {
         this.router = router;
-        this.heroService = heroService;
-        this.heroes = [];
+        this.color = 'defaultdark';
+        this.showSettings = false;
+        this.showMinisidebar = false;
+        this.showDarktheme = false;
+        this.config = {};
     }
-    DashboardComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.heroService.getHeroes()
-            .subscribe(function (heroes) { return _this.heroes = heroes.slice(1, 5); });
+    FullComponent.prototype.ngOnInit = function () {
+        if (this.router.url === '/') {
+            this.router.navigate(['/dashboard/dashboard1']);
+        }
+        this.handleLayout();
     };
-    DashboardComponent.prototype.gotoDetail = function (hero) {
-        var link = ['/detail', hero.id];
-        this.router.navigate(link);
+    FullComponent.prototype.onResize = function (event) {
+        this.handleLayout();
     };
-    DashboardComponent = __decorate([
+    FullComponent.prototype.toggleSidebar = function () {
+        this.showMinisidebar = !this.showMinisidebar;
+    };
+    FullComponent.prototype.handleLayout = function () {
+        this.innerWidth = window.innerWidth;
+        if (this.innerWidth < 1170) {
+            this.showMinisidebar = true;
+        }
+        else {
+            this.showMinisidebar = false;
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["HostListener"])('window:resize', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], FullComponent.prototype, "onResize", null);
+    FullComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'my-dashboard',
-            template: __webpack_require__(/*! ./dashboard.component.html */ "./src/app/dashboard.component.html"),
-            styles: [__webpack_require__(/*! ./dashboard.component.css */ "./src/app/dashboard.component.css")]
+            selector: 'app-full-layout',
+            template: __webpack_require__(/*! ./full.component.html */ "./src/app/layouts/full/full.component.html"),
+            styles: [__webpack_require__(/*! ./full.component.scss */ "./src/app/layouts/full/full.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _hero_service__WEBPACK_IMPORTED_MODULE_2__["HeroService"]])
-    ], DashboardComponent);
-    return DashboardComponent;
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+    ], FullComponent);
+    return FullComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/hero-detail.component.css":
-/*!*******************************************!*\
-  !*** ./src/app/hero-detail.component.css ***!
-  \*******************************************/
+/***/ "./src/app/shared/breadcrumb/breadcrumb.component.html":
+/*!*************************************************************!*\
+  !*** ./src/app/shared/breadcrumb/breadcrumb.component.html ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "label {\n  display: inline-block;\n  width: 3em;\n  margin: .5em 0;\n  color: #607D8B;\n  color: rgb(0,120,215);\n  font-weight: bold;\n}\ninput {\n  height: 2em;\n  font-size: 1em;\n  padding-left: .4em;\n}\nbutton {\n  margin-top: 20px;\n  font-family: Arial;\n  background-color: #eee;\n  border: none;\n  padding: 5px 10px;\n  border-radius: 4px;\n  cursor: pointer; cursor: hand;\n}\nbutton:hover {\n  background-color: #cfd8dc;\n}\nbutton:disabled {\n  background-color: #eee;\n  color: #ccc;\n  cursor: auto;\n}\n"
+module.exports = "<!-- ============================================================== -->\r\n<!-- Bread crumb and right sidebar toggle -->\r\n<!-- ============================================================== -->\r\n<div class=\"row page-titles\">\r\n    <div class=\"col-md-5 align-self-center\">\r\n        <h4 class=\"text-themecolor m-b-0\">{{pageInfo?.title}}</h4>\r\n    </div>\r\n    <div class=\"col-md-7 align-self-center\">\r\n        <ol class=\"breadcrumb\">\r\n            <ng-template ngFor let-url [ngForOf]=\"pageInfo?.urls\" let-last=\"last\">\r\n                <li class=\"breadcrumb-item\" *ngIf=\"!last\" [routerLink]=\"url.url\">\r\n                    <a href='javascript:void(0)'>{{url.title}}</a>\r\n                </li>\r\n                <li class=\"breadcrumb-item active\" *ngIf=\"last\">{{url.title}}</li>\r\n            </ng-template>\r\n        </ol>\r\n    </div>\r\n</div>\r\n<!-- ============================================================== -->\r\n<!-- End Bread crumb and right sidebar toggle -->\r\n<!-- ============================================================== -->"
 
 /***/ }),
 
-/***/ "./src/app/hero-detail.component.html":
-/*!********************************************!*\
-  !*** ./src/app/hero-detail.component.html ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div *ngIf=\"hero\">\n  <h2>{{hero.name}} details!</h2>\n  <div>\n    <label>id: </label>{{hero.id}}</div>\n  <div>\n    <label>name: </label>\n    <input [(ngModel)]=\"hero.name\" placeholder=\"name\" />\n  </div>\n  <button (click)=\"goBack()\">Back</button>\n  <button (click)=\"save()\">Save</button>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/hero-detail.component.ts":
-/*!******************************************!*\
-  !*** ./src/app/hero-detail.component.ts ***!
-  \******************************************/
-/*! exports provided: HeroDetailComponent */
+/***/ "./src/app/shared/breadcrumb/breadcrumb.component.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/shared/breadcrumb/breadcrumb.component.ts ***!
+  \***********************************************************/
+/*! exports provided: BreadcrumbComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroDetailComponent", function() { return HeroDetailComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BreadcrumbComponent", function() { return BreadcrumbComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hero */ "./src/app/hero.ts");
-/* harmony import */ var _hero_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./hero.service */ "./src/app/hero.service.ts");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var rxjs_add_operator_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/add/operator/filter */ "./node_modules/rxjs-compat/_esm5/add/operator/filter.js");
+/* harmony import */ var rxjs_add_operator_map__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/add/operator/map */ "./node_modules/rxjs-compat/_esm5/add/operator/map.js");
+/* harmony import */ var rxjs_add_operator_mergeMap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/add/operator/mergeMap */ "./node_modules/rxjs-compat/_esm5/add/operator/mergeMap.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -322,102 +362,374 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-var HeroDetailComponent = /** @class */ (function () {
-    function HeroDetailComponent(heroService, route) {
-        this.heroService = heroService;
-        this.route = route;
-        this.close = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.navigated = false; // true if navigated here
-    }
-    HeroDetailComponent.prototype.ngOnInit = function () {
+
+
+var BreadcrumbComponent = /** @class */ (function () {
+    function BreadcrumbComponent(router, activatedRoute, titleService) {
         var _this = this;
-        this.route.params.forEach(function (params) {
-            if (params['id'] !== undefined) {
-                var id = +params['id'];
-                _this.navigated = true;
-                _this.heroService.getHero(id).subscribe(function (hero) { return (_this.hero = hero); });
+        this.router = router;
+        this.activatedRoute = activatedRoute;
+        this.titleService = titleService;
+        this.router.events
+            .filter(function (event) { return event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationEnd"]; })
+            .map(function () { return _this.activatedRoute; })
+            .map(function (route) {
+            while (route.firstChild) {
+                route = route.firstChild;
             }
-            else {
-                _this.navigated = false;
-                _this.hero = new _hero__WEBPACK_IMPORTED_MODULE_2__["Hero"]();
-            }
+            return route;
+        })
+            .filter(function (route) { return route.outlet === 'primary'; })
+            .mergeMap(function (route) { return route.data; })
+            .subscribe(function (event) {
+            _this.titleService.setTitle(event['title']);
+            _this.pageInfo = event;
         });
-    };
-    HeroDetailComponent.prototype.save = function () {
-        var _this = this;
-        this.heroService.save(this.hero).subscribe(function (hero) {
-            _this.hero = hero; // saved hero, w/ id if new
-            _this.goBack(hero);
-        }, function (error) { return (_this.error = error); }); // TODO: Display error message
-    };
-    HeroDetailComponent.prototype.goBack = function (savedHero) {
-        if (savedHero === void 0) { savedHero = null; }
-        this.close.emit(savedHero);
-        if (this.navigated) {
-            window.history.back();
-        }
-    };
+    }
+    BreadcrumbComponent.prototype.ngOnInit = function () { };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", _hero__WEBPACK_IMPORTED_MODULE_2__["Hero"])
-    ], HeroDetailComponent.prototype, "hero", void 0);
+        __metadata("design:type", Object)
+    ], BreadcrumbComponent.prototype, "layout", void 0);
+    BreadcrumbComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-breadcrumb',
+            template: __webpack_require__(/*! ./breadcrumb.component.html */ "./src/app/shared/breadcrumb/breadcrumb.component.html")
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"]])
+    ], BreadcrumbComponent);
+    return BreadcrumbComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/header-navigation/navigation.component.html":
+/*!********************************************************************!*\
+  !*** ./src/app/shared/header-navigation/navigation.component.html ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<!-- ============================================================== -->\r\n<!-- toggle and nav items -->\r\n<!-- ============================================================== -->\r\n<ul class=\"navbar-nav mr-auto float-left\">                \r\n    <li (click)=\"toggleSidebar.emit()\" class=\"nav-item m-l-10 d-block d-lg-none\"> <a class=\"nav-link sidebartoggler text-muted waves-effect waves-dark\" href=\"javascript:void(0)\"><i class=\"ti-menu\"></i></a> </li>\r\n</ul>\r\n<!-- ============================================================== -->\r\n<!-- User profile and search -->\r\n<!-- ============================================================== -->\r\n<ul class=\"navbar-nav my-lg-0 float-right\">\r\n    \r\n    \r\n    <!-- ============================================================== -->\r\n    <!-- Profile -->\r\n    <!-- ============================================================== -->\r\n    <li class=\"nav-item dropdown\" ngbDropdown placement=\"bottom-right\">\r\n        <a ngbDropdownToggle class=\"nav-link dropdown-toggle text-muted waves-effect waves-dark\" href=\"javascript:void(0)\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><img src=\"assets/images/users/1.jpg\" alt=\"user\" class=\"profile-pic\" /></a>\r\n        <div class=\"dropdown-menu animated slideInDown\" ngbDropdownMenu>\r\n            <ul class=\"dropdown-user\">\r\n                <li>\r\n                    <div class=\"dw-user-box\">\r\n                        <div class=\"u-img\"><img src=\"assets/images/users/1.jpg\" alt=\"user\"></div>\r\n                        <div class=\"u-text\">\r\n                            <h4>Steave Jobs</h4>\r\n                            <p class=\"text-muted\">varun@gmail.com</p><a href=\"pages-profile.html\" class=\"btn btn-rounded btn-danger btn-sm\">View Profile</a></div>\r\n                    </div>\r\n                </li>\r\n                <li role=\"separator\" class=\"divider\"></li>\r\n                <li><a href=\"#\"><i class=\"ti-user\"></i> My Profile</a></li>\r\n                <li><a href=\"#\"><i class=\"ti-wallet\"></i> My Balance</a></li>\r\n                <li><a href=\"#\"><i class=\"ti-email\"></i> Inbox</a></li>\r\n                <li role=\"separator\" class=\"divider\"></li>\r\n                <li><a href=\"#\"><i class=\"ti-settings\"></i> Account Setting</a></li>\r\n                <li role=\"separator\" class=\"divider\"></li>\r\n                <li><a href=\"#\"><i class=\"fa fa-power-off\"></i> Logout</a></li>\r\n            </ul>\r\n        </div>\r\n    </li>\r\n</ul>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/header-navigation/navigation.component.ts":
+/*!******************************************************************!*\
+  !*** ./src/app/shared/header-navigation/navigation.component.ts ***!
+  \******************************************************************/
+/*! exports provided: NavigationComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigationComponent", function() { return NavigationComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var NavigationComponent = /** @class */ (function () {
+    function NavigationComponent(modalService) {
+        this.modalService = modalService;
+        this.toggleSidebar = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.config = {};
+        this.showSearch = false;
+        // This is for Notifications
+        this.notifications = [
+            {
+                round: 'round-danger',
+                icon: 'ti-link',
+                title: 'Luanch Admin',
+                subject: 'Just see the my new admin!',
+                time: '9:30 AM'
+            },
+            {
+                round: 'round-success',
+                icon: 'ti-calendar',
+                title: 'Event today',
+                subject: 'Just a reminder that you have event',
+                time: '9:10 AM'
+            },
+            {
+                round: 'round-info',
+                icon: 'ti-settings',
+                title: 'Settings',
+                subject: 'You can customize this template as you want',
+                time: '9:08 AM'
+            },
+            {
+                round: 'round-primary',
+                icon: 'ti-user',
+                title: 'Pavan kumar',
+                subject: 'Just see the my admin!',
+                time: '9:00 AM'
+            }
+        ];
+        // This is for Mymessages
+        this.mymessages = [
+            {
+                useravatar: 'assets/images/users/1.jpg',
+                status: 'online',
+                from: 'Pavan kumar',
+                subject: 'Just see the my admin!',
+                time: '9:30 AM'
+            },
+            {
+                useravatar: 'assets/images/users/2.jpg',
+                status: 'busy',
+                from: 'Sonu Nigam',
+                subject: 'I have sung a song! See you at',
+                time: '9:10 AM'
+            },
+            {
+                useravatar: 'assets/images/users/2.jpg',
+                status: 'away',
+                from: 'Arijit Sinh',
+                subject: 'I am a singer!',
+                time: '9:08 AM'
+            },
+            {
+                useravatar: 'assets/images/users/4.jpg',
+                status: 'offline',
+                from: 'Pavan kumar',
+                subject: 'Just see the my admin!',
+                time: '9:00 AM'
+            }
+        ];
+    }
+    NavigationComponent.prototype.ngAfterViewInit = function () { };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", Object)
-    ], HeroDetailComponent.prototype, "close", void 0);
-    HeroDetailComponent = __decorate([
+    ], NavigationComponent.prototype, "toggleSidebar", void 0);
+    NavigationComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'my-hero-detail',
-            template: __webpack_require__(/*! ./hero-detail.component.html */ "./src/app/hero-detail.component.html"),
-            styles: [__webpack_require__(/*! ./hero-detail.component.css */ "./src/app/hero-detail.component.css")]
+            selector: 'app-navigation',
+            template: __webpack_require__(/*! ./navigation.component.html */ "./src/app/shared/header-navigation/navigation.component.html")
         }),
-        __metadata("design:paramtypes", [_hero_service__WEBPACK_IMPORTED_MODULE_3__["HeroService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
-    ], HeroDetailComponent);
-    return HeroDetailComponent;
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"]])
+    ], NavigationComponent);
+    return NavigationComponent;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/hero-search.component.css":
-/*!*******************************************!*\
-  !*** ./src/app/hero-search.component.css ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ".search-result{\n  border-bottom: 1px solid gray;\n  border-left: 1px solid gray;\n  border-right: 1px solid gray;\n  width:195px;\n  height: 20px;\n  padding: 5px;\n  background-color: white;\n  cursor: pointer;\n}\n\n#search-box{\n  width: 200px;\n  height: 20px;\n  border: 1px solid lightgray;\n}\n"
-
-/***/ }),
-
-/***/ "./src/app/hero-search.component.html":
-/*!********************************************!*\
-  !*** ./src/app/hero-search.component.html ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div id=\"search-component\">\n  <h4>Hero Search</h4>\n  <input #searchBox id=\"search-box\" (keyup)=\"search(searchBox.value)\" />\n  <div>\n    <div *ngFor=\"let hero of heroes | async\"\n         (click)=\"gotoDetail(hero)\" class=\"search-result\" >\n      {{hero.name}}\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/hero-search.component.ts":
-/*!******************************************!*\
-  !*** ./src/app/hero-search.component.ts ***!
-  \******************************************/
-/*! exports provided: HeroSearchComponent */
+/***/ "./src/app/shared/sidebar/menu-items.ts":
+/*!**********************************************!*\
+  !*** ./src/app/shared/sidebar/menu-items.ts ***!
+  \**********************************************/
+/*! exports provided: ROUTES */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroSearchComponent", function() { return HeroSearchComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROUTES", function() { return ROUTES; });
+var ROUTES = [
+    {
+        path: '',
+        title: 'Personal',
+        icon: '',
+        class: 'nav-small-cap',
+        label: '',
+        labelClass: '',
+        extralink: true,
+        submenu: []
+    },
+    {
+        path: '/starter',
+        title: 'Starter Page',
+        icon: 'mdi mdi-gauge',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '',
+        title: 'UI Components',
+        icon: '',
+        class: 'nav-small-cap',
+        label: '',
+        labelClass: '',
+        extralink: true,
+        submenu: []
+    },
+    {
+        path: '/component/accordion',
+        title: 'Accordion',
+        icon: 'mdi mdi-equal',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/alert',
+        title: 'Alert',
+        icon: 'mdi mdi-message-bulleted',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/carousel',
+        title: 'Carousel',
+        icon: 'mdi mdi-view-carousel',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/dropdown',
+        title: 'Dropdown',
+        icon: 'mdi mdi-arrange-bring-to-front',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/modal',
+        title: 'Modal',
+        icon: 'mdi mdi-tablet',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/pagination',
+        title: 'Pagination',
+        icon: 'mdi mdi-backburger',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/poptool',
+        title: 'Popover & Tooltip',
+        icon: 'mdi mdi-image-filter-vintage',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/progressbar',
+        title: 'Progressbar',
+        icon: 'mdi mdi-poll',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/rating',
+        title: 'Ratings',
+        icon: 'mdi mdi-bandcamp',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/tabs',
+        title: 'Tabs',
+        icon: 'mdi mdi-sort-variant',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/timepicker',
+        title: 'Timepicker',
+        icon: 'mdi mdi-calendar-clock',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/buttons',
+        title: 'Button',
+        icon: 'mdi mdi-toggle-switch',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    },
+    {
+        path: '/component/cards',
+        title: 'Card',
+        icon: 'mdi mdi-blur-radial',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+    }
+];
+
+
+/***/ }),
+
+/***/ "./src/app/shared/sidebar/sidebar.component.html":
+/*!*******************************************************!*\
+  !*** ./src/app/shared/sidebar/sidebar.component.html ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<nav class=\"sidebar-nav\">\r\n    <ul id=\"sidebarnav\">\r\n        <!-- First level menu -->\r\n        <li [class.active]=\"showMenu === sidebarnavItem.title\" *ngFor=\"let sidebarnavItem of sidebarnavItems\" [routerLinkActive]=\"sidebarnavItem.submenu.length != 0 ? '' : 'active'\">\r\n            <div class=\"nav-small-cap\" *ngIf=\"sidebarnavItem.extralink === true\">{{sidebarnavItem.title}}</div>\r\n            <a [routerLink]=\"sidebarnavItem.class === '' ? [sidebarnavItem.path] : null\" [ngClass]=\"[sidebarnavItem.class]\" *ngIf=\"!sidebarnavItem.extralink;\"\r\n                (click)=\"addExpandClass(sidebarnavItem.title)\">\r\n                <i [ngClass]=\"[sidebarnavItem.icon]\"></i>\r\n                <span class=\"hide-menu\">{{sidebarnavItem.title}}\r\n                    <span *ngIf=\"sidebarnavItem.label != '' \" [ngClass]=\"[sidebarnavItem.labelClass]\">{{sidebarnavItem.label}}</span>\r\n                </span>\r\n            </a>\r\n\r\n        </li>\r\n        <li class=\"m-t-40 p-20 upgrade-btn\">\r\n            <a href=\"https://wrappixel.com/templates/adminpro-angular-dashboard/\" target=\"_blank\" class=\"btn btn-danger text-white\">Upgrade\r\n                To Pro</a>\r\n        </li>\r\n    </ul>\r\n</nav>"
+
+/***/ }),
+
+/***/ "./src/app/shared/sidebar/sidebar.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/shared/sidebar/sidebar.component.ts ***!
+  \*****************************************************/
+/*! exports provided: SidebarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SidebarComponent", function() { return SidebarComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _hero_search_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hero-search.service */ "./src/app/hero-search.service.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var _menu_items__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu-items */ "./src/app/shared/sidebar/menu-items.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -431,342 +743,109 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
-var HeroSearchComponent = /** @class */ (function () {
-    function HeroSearchComponent(heroSearchService, router) {
-        this.heroSearchService = heroSearchService;
+var SidebarComponent = /** @class */ (function () {
+    function SidebarComponent(modalService, router, route) {
+        this.modalService = modalService;
         this.router = router;
-        this.searchTerms = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
+        this.route = route;
+        this.showMenu = '';
+        this.showSubMenu = '';
     }
-    HeroSearchComponent.prototype.search = function (term) {
-        // Push a search term into the observable stream.
-        this.searchTerms.next(term);
-    };
-    HeroSearchComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.heroes = this.searchTerms.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["debounceTime"])(300), // wait for 300ms pause in events
-        Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["distinctUntilChanged"])(), // ignore if next search term is same as previous
-        Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["switchMap"])(function (term) {
-            return term // switch to new observable each time
-                ? // return the http search observable
-                    _this.heroSearchService.search(term)
-                : // or the observable of empty heroes if no search term
-                    Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])([]);
-        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(function (error) {
-            // TODO: real error handling
-            console.log("Error in component ... " + error);
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])([]);
-        }));
-    };
-    HeroSearchComponent.prototype.gotoDetail = function (hero) {
-        var link = ['/detail', hero.id];
-        this.router.navigate(link);
-    };
-    HeroSearchComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'my-hero-search',
-            template: __webpack_require__(/*! ./hero-search.component.html */ "./src/app/hero-search.component.html"),
-            styles: [__webpack_require__(/*! ./hero-search.component.css */ "./src/app/hero-search.component.css")],
-            providers: [_hero_search_service__WEBPACK_IMPORTED_MODULE_4__["HeroSearchService"]]
-        }),
-        __metadata("design:paramtypes", [_hero_search_service__WEBPACK_IMPORTED_MODULE_4__["HeroSearchService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
-    ], HeroSearchComponent);
-    return HeroSearchComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/hero-search.service.ts":
-/*!****************************************!*\
-  !*** ./src/app/hero-search.service.ts ***!
-  \****************************************/
-/*! exports provided: HeroSearchService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroSearchService", function() { return HeroSearchService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var HeroSearchService = /** @class */ (function () {
-    function HeroSearchService(http) {
-        this.http = http;
-    }
-    HeroSearchService.prototype.search = function (term) {
-        return this.http
-            .get("app/heroes/?name=" + term)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError));
-    };
-    HeroSearchService.prototype.handleError = function (res) {
-        console.error(res.error);
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(res.error || 'Server error');
-    };
-    HeroSearchService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
-    ], HeroSearchService);
-    return HeroSearchService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/hero.service.ts":
-/*!*********************************!*\
-  !*** ./src/app/hero.service.ts ***!
-  \*********************************/
-/*! exports provided: HeroService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroService", function() { return HeroService; });
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var HeroService = /** @class */ (function () {
-    function HeroService(http) {
-        this.http = http;
-        this.heroesUrl = 'app/heroes'; // URL to web api
-    }
-    HeroService.prototype.getHeroes = function () {
-        return this.http
-            .get(this.heroesUrl)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) { return data; }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError));
-    };
-    HeroService.prototype.getHero = function (id) {
-        return this.getHeroes().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (heroes) { return heroes.find(function (hero) { return hero.id === id; }); }));
-    };
-    HeroService.prototype.save = function (hero) {
-        if (hero.id) {
-            return this.put(hero);
+    // this is for the open close
+    SidebarComponent.prototype.addExpandClass = function (element) {
+        if (element === this.showMenu) {
+            this.showMenu = '0';
         }
-        return this.post(hero);
-    };
-    HeroService.prototype.delete = function (hero) {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = this.heroesUrl + "/" + hero.id;
-        return this.http.delete(url).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError));
-    };
-    // Add new Hero
-    HeroService.prototype.post = function (hero) {
-        var headers = new Headers({
-            'Content-Type': 'application/json'
-        });
-        return this.http
-            .post(this.heroesUrl, hero)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError));
-    };
-    // Update existing Hero
-    HeroService.prototype.put = function (hero) {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        var url = this.heroesUrl + "/" + hero.id;
-        return this.http.put(url, hero).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(this.handleError));
-    };
-    HeroService.prototype.handleError = function (res) {
-        console.error(res.error || res.body.error);
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["throwError"])(res.error || 'Server error');
-    };
-    HeroService = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
-    ], HeroService);
-    return HeroService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/hero.ts":
-/*!*************************!*\
-  !*** ./src/app/hero.ts ***!
-  \*************************/
-/*! exports provided: Hero */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Hero", function() { return Hero; });
-var Hero = /** @class */ (function () {
-    function Hero() {
-    }
-    return Hero;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/heroes.component.css":
-/*!**************************************!*\
-  !*** ./src/app/heroes.component.css ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ".selected {\n  background-color: #CFD8DC !important;\n  background-color: rgb(0,120,215) !important;\n  color: white;\n}\n.heroes {\n  margin: 0 0 2em 0;\n  list-style-type: none;\n  padding: 0;\n  width: 15em;\n}\n.heroes li {\n  cursor: pointer;\n  position: relative;\n  left: 0;\n  background-color: #EEE;\n  margin: .5em;\n  padding: .5em;\n  height: 1.6em;\n  border-radius: 4px;\n}\n.heroes li:hover {\n  color: #607D8B;\n  color: rgb(0,120,215);\n  background-color: #DDD;\n  left: .1em;\n}\n.heroes li.selected:hover {\n  /*background-color: #BBD8DC !important;*/\n  color: white;\n}\n.heroes .text {\n  position: relative;\n  top: -3px;\n}\n.heroes .badge {\n  display: inline-block;\n  font-size: small;\n  color: white;\n  padding: 0.8em 0.7em 0 0.7em;\n  background-color: #607D8B;\n  background-color: rgb(0,120,215);\n  line-height: 1em;\n  position: relative;\n  left: -1px;\n  top: -4px;\n  height: 1.8em;\n  margin-right: .8em;\n  border-radius: 4px 0 0 4px;\n}\nbutton {\n  font-family: Arial;\n  background-color: #eee;\n  border: none;\n  padding: 5px 10px;\n  border-radius: 4px;\n  cursor: pointer;\n  cursor: hand;\n}\nbutton:hover {\n  background-color: #cfd8dc;\n}\n.error {color:red;}\nbutton.delete-button{\n  float:right;\n  background-color: gray !important;\n  background-color: rgb(216,59,1) !important;\n  color:white;\n}\n"
-
-/***/ }),
-
-/***/ "./src/app/heroes.component.html":
-/*!***************************************!*\
-  !*** ./src/app/heroes.component.html ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<h2>My Heroes</h2>\n\n<ul class=\"heroes\">\n  <li *ngFor=\"let hero of heroes\" (click)=\"onSelect(hero)\" [class.selected]=\"hero === selectedHero\">\n    <span class=\"hero-element\">\n      <span class=\"badge\">{{hero.id}}</span> {{hero.name}}\n    </span>\n    <button class=\"delete-button\" (click)=\"deleteHero(hero, $event)\">Delete</button>\n  </li>\n</ul>\n\n<div class=\"error\" *ngIf=\"error\">{{error}}</div>\n<button (click)=\"addHero()\">Add New Hero</button>\n<div *ngIf=\"addingHero\">\n  <my-hero-detail (close)=\"close($event)\"></my-hero-detail>\n</div>\n\n<div *ngIf=\"selectedHero\">\n  <h2>\n    {{selectedHero.name | uppercase}} is my hero\n  </h2>\n  <button (click)=\"gotoDetail()\">View Details</button>\n</div>\n\n<div>\n  <style>\n    .hidden { visibility: hidden}\n  </style>\n  <h4>ngFor Features</h4>\n  <button (click)=\"showNgFor=!showNgFor\">{{showNgFor ? 'Hide' : 'Show'}} ngFor Features</button>\n  <table [class.hidden]=\"!showNgFor\">\n    <tbody>\n      <tr *ngFor=\"let hero of heroes; let ix = index; let c = count; let e = even; let o = odd; let f = first; let l = last\">\n        <td>{{hero.name}}</td>\n        <td>{{ix}}</td>\n        <td>{{c}}</td>\n        <td>{{e}}</td>\n        <td>{{o}}</td>\n        <td>{{f}}</td>\n        <td>{{l}}</td>\n      </tr>\n    </tbody>\n  </table>\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/heroes.component.ts":
-/*!*************************************!*\
-  !*** ./src/app/heroes.component.ts ***!
-  \*************************************/
-/*! exports provided: HeroesComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeroesComponent", function() { return HeroesComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _hero_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hero.service */ "./src/app/hero.service.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var HeroesComponent = /** @class */ (function () {
-    function HeroesComponent(router, heroService) {
-        this.router = router;
-        this.heroService = heroService;
-        this.addingHero = false;
-        this.showNgFor = false;
-    }
-    HeroesComponent.prototype.getHeroes = function () {
-        var _this = this;
-        this.heroService
-            .getHeroes()
-            .subscribe(function (heroes) { return (_this.heroes = heroes); }, function (error) { return (_this.error = error); });
-    };
-    HeroesComponent.prototype.addHero = function () {
-        this.addingHero = true;
-        this.selectedHero = null;
-    };
-    HeroesComponent.prototype.close = function (savedHero) {
-        this.addingHero = false;
-        if (savedHero) {
-            this.getHeroes();
+        else {
+            this.showMenu = element;
         }
     };
-    HeroesComponent.prototype.deleteHero = function (hero, event) {
+    // End open close
+    SidebarComponent.prototype.ngOnInit = function () {
+        this.sidebarnavItems = _menu_items__WEBPACK_IMPORTED_MODULE_2__["ROUTES"].filter(function (sidebarnavItem) { return sidebarnavItem; });
+    };
+    SidebarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-sidebar',
+            template: __webpack_require__(/*! ./sidebar.component.html */ "./src/app/shared/sidebar/sidebar.component.html")
+        }),
+        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NgbModal"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+    ], SidebarComponent);
+    return SidebarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/spinner.component.ts":
+/*!*********************************************!*\
+  !*** ./src/app/shared/spinner.component.ts ***!
+  \*********************************************/
+/*! exports provided: SpinnerComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpinnerComponent", function() { return SpinnerComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+var SpinnerComponent = /** @class */ (function () {
+    function SpinnerComponent(router, document) {
         var _this = this;
-        event.stopPropagation();
-        this.heroService.delete(hero).subscribe(function (res) {
-            _this.heroes = _this.heroes.filter(function (h) { return h !== hero; });
-            if (_this.selectedHero === hero) {
-                _this.selectedHero = null;
+        this.router = router;
+        this.document = document;
+        this.isSpinnerVisible = true;
+        this.backgroundColor = 'rgba(0, 115, 170, 0.69)';
+        this.router.events.subscribe(function (event) {
+            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationStart"]) {
+                _this.isSpinnerVisible = true;
             }
-        }, function (error) { return (_this.error = error); });
-    };
-    HeroesComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
-    };
-    HeroesComponent.prototype.onSelect = function (hero) {
-        this.selectedHero = hero;
-        this.addingHero = false;
-    };
-    HeroesComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/detail', this.selectedHero.id]);
-    };
-    HeroesComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'my-heroes',
-            template: __webpack_require__(/*! ./heroes.component.html */ "./src/app/heroes.component.html"),
-            styles: [__webpack_require__(/*! ./heroes.component.css */ "./src/app/heroes.component.css")]
-        }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], _hero_service__WEBPACK_IMPORTED_MODULE_2__["HeroService"]])
-    ], HeroesComponent);
-    return HeroesComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/in-memory-data.service.ts":
-/*!*******************************************!*\
-  !*** ./src/app/in-memory-data.service.ts ***!
-  \*******************************************/
-/*! exports provided: InMemoryDataService */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InMemoryDataService", function() { return InMemoryDataService; });
-var InMemoryDataService = /** @class */ (function () {
-    function InMemoryDataService() {
+            else if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationEnd"] ||
+                event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationCancel"] ||
+                event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationError"]) {
+                _this.isSpinnerVisible = false;
+            }
+        }, function () {
+            _this.isSpinnerVisible = false;
+        });
     }
-    InMemoryDataService.prototype.createDb = function () {
-        var heroes = [
-            { id: 11, name: 'Dhananjay' },
-            { id: 12, name: 'Rahul' },
-            { id: 13, name: 'Rupali' },
-            { id: 14, name: 'Tejas' },
-            { id: 15, name: 'Pranoti' },
-            { id: 16, name: 'Amaya' },
-            { id: 17, name: 'Nitin' },
-            { id: 18, name: 'Chaitnya' },
-            { id: 19, name: 'Hidayat' },
-            { id: 20, name: 'Shubham' }
-        ];
-        return { heroes: heroes };
+    SpinnerComponent.prototype.ngOnDestroy = function () {
+        this.isSpinnerVisible = false;
     };
-    return InMemoryDataService;
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], SpinnerComponent.prototype, "backgroundColor", void 0);
+    SpinnerComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-spinner',
+            template: "<div class=\"preloader\" *ngIf=\"isSpinnerVisible\">\n        <div class=\"spinner\">\n          <div class=\"double-bounce1\"></div>\n          <div class=\"double-bounce2\"></div>\n        </div>\n    </div>",
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None
+        }),
+        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Inject"])(_angular_common__WEBPACK_IMPORTED_MODULE_2__["DOCUMENT"])),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            Document])
+    ], SpinnerComponent);
+    return SpinnerComponent;
 }());
 
 
@@ -814,7 +893,8 @@ __webpack_require__.r(__webpack_exports__);
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
 }
-Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"]);
+Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
+    .catch(function (err) { return console.log(err); });
 
 
 /***/ }),
@@ -826,7 +906,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/dj/Downloads/angular-tour-of-heroes-master/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/dj/Downloads/adminpro-angular7-lite/Angular/src/main.ts */"./src/main.ts");
 
 
 /***/ })
